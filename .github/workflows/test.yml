@@ -25,6 +25,7 @@ jobs:
     - uses: leafo/gh-actions-lua@v10
       with:
         luaVersion: ${{ matrix.luaVersion }}
+        buildCache: false
     - uses: leafo/gh-actions-luarocks@v4
     - name: test deps
       run: luarocks test --prepare ${{ env.DEV }}
