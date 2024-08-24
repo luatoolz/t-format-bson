@@ -2,19 +2,9 @@ local driver = require "mongo"
 local getmetatable = debug and debug.getmetatable or getmetatable
 local meta = require "meta"
 local is = meta.is
-local inspect = require 'inspect'
-
-local function __bson(x)
-  local mt = getmetatable(x or {}) or {}
-  local to = mt.__toBSON or mt.__tobson
-  if type(to)=='function' then return to(x) end
-  return x
-end
 
 local function add(self)
   if type(self)~='table' or getmetatable(self) then return self end
---  self=__bson(self)
---  if getmetatable(self) then return self end
   if type(self[1])~='nil' then self.__array=true end
   for k,v in pairs(self) do add(v) end
   return self
