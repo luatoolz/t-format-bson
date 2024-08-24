@@ -1,7 +1,5 @@
 local driver = require "mongo"
 local getmetatable = debug and debug.getmetatable or getmetatable
-local meta = require "meta"
-local is = meta.is
 
 local function add(self)
   if type(self)~='table' or getmetatable(self) then return self end
@@ -18,7 +16,7 @@ local function clear(self)
   return self
 end
 
-if is.lua_version('5.1') then
+--if is.lua_version('5.1') then
   local object = driver.BSON({})
   if type(object)~='nil' then
     local mt = getmetatable(object)
@@ -31,4 +29,4 @@ if is.lua_version('5.1') then
     local __bson=driver.BSON
     driver.BSON=function(self) return __bson(add(self)) end
   end
-end
+--end
