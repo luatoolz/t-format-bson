@@ -18,7 +18,7 @@ jobs:
         luaVersion: ["5.1", "5.2", "5.3", "luajit", "luajit-openresty"]
     env:
       DEV: --dev
-      SYSDEPS: libbson-dev
+      SYSDEPS: libmongoc-dev
       ROCKSPEC: ${{ github.event.repository.name }}-scm-0.rockspec
     steps:
     - uses: actions/checkout@master
