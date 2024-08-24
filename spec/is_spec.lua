@@ -20,5 +20,8 @@ describe("is", function()
 
     assert.tobson(setmetatable({}, {__tobson=function(x) return "" end}))
     assert.tobson(setmetatable({}, {__toBSON=function(x) return "" end}))
+
+    assert.tobson(t.set())
+    assert.tobson(t.array())
   end)
 end)

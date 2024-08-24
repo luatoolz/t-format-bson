@@ -37,16 +37,42 @@ describe("bson", function()
     data=driver.BSON({"x"})
     assert.same({"x"}, data:value())
 
+    data=bson({"x"})
+    assert.same({"x"}, data:value())
+
+    data=driver.BSON({x={}})
+    assert.equal(driver.BSON{x={}}, data)
+
+    data=driver.BSON({x={'a', 'b'}})
+    assert.same({x={'a', 'b'}}, data:value())
+    assert.equal(driver.BSON{x={[1]='a', [2]='b'}}, data)
+    assert.equal(driver.BSON{x={'a','b'}}, data)
+
+    data=driver.BSON({'a', 'b'})
+    assert.same({'a', 'b'}, data:value())
+    assert.equal(driver.BSON{[1]='a', [2]='b'}, data)
+    assert.equal(driver.BSON{'a','b'}, data)
+
     data=driver.BSON({x=t.array()})
     assert.equal(driver.BSON{x={}}, data)
 
     data=driver.BSON({x=t.array(1,2)})
     assert.equal(driver.BSON{x={1,2}}, data)
-    assert.equal(driver.BSON{x={__array=true,1,2}}, data)
+    assert.equal(driver.BSON{x={1,2}}, data)
     assert.equal(data, driver.BSON('{"x":[1,2]}'))
-    assert.equal(driver.BSON{x={__array=true,1,2}}, driver.BSON('{"x":[1,2]}'))
+    assert.equal(driver.BSON('{"x":[1,2]}'), data)
+    assert.equal(driver.BSON{x={1,2}}, driver.BSON('{"x":[1,2]}'))
 
-    data=driver.BSON({x=t.set(1,2)})
+    data=driver.BSON({x=t.set("x","y")})
+    assert.equal(bson{x={[1]="x",[2]="y"}}, data)
+    assert.equal(bson{x={"x","y"}}, data)
+    assert.equal(driver.BSON{x={[1]="x",[2]="y"}}, data)
+    assert.equal(driver.BSON{x={"x","y"}}, data)
+
+    data=driver.BSON({x={"x","y"}})
+    assert.equal(driver.BSON{x={"x","y"}}, data)
+
+    data=driver.BSON({x={1,2}})
     assert.equal(driver.BSON{x={1,2}}, data)
   end)
 	it("is", function()
@@ -97,9 +123,12 @@ describe("bson", function()
 		assert.same({}, bson({}):value())
 
 		assert.equal(bson{}, bson{})
-		assert.equal(bson{}, bson({}))
+		assert.equal(bson{}, bson(t.array()))
+		assert.equal(bson{"a"}, bson(t.array({"a"})))
 
+		assert.equal(bson{x={}}, bson{x={}})
 		assert.equal(bson{x={}}, bson{x=t.array()})
+		assert.equal(bson{x={"a"}}, bson{x=t.array({"a"})})
 		assert.equal(bson{x={1, 2}}, bson{x=t.array(1,2)})
 
 		assert.equal(bson{x={}}, bson{x=t.set()})

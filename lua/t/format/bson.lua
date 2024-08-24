@@ -34,26 +34,32 @@ return setmetatable({
   decode=function(x) if is_mongo(x) then return clear(x:value()) end end,
   type=driver.type,
   mongo=is_mongo,
+  tobson=function(x)
+    local mt = getmetatable(x or {}) or {}
+    return mt.__toBSON or mt.__tobson
+  end,
 },{
   __call=function(self, x)
     if type(x)=='function' or type(x)=='thread' or type(x)=='CFunction' then x=tostring(x) end
     if atom[type(x)] then return x end
-    if x==self.null or type(x)=='nil' then return self.null end
+    if rawequal(self.null, x) or type(x)=='nil' then return self.null end
     if self.mongo(x) then return x end
     if type(x)=='userdata' then
       local mt = getmetatable(x or {}) or {}
       local to = mt.__toBSON or mt.__tobson
       if type(to)=='function' then
-        return __bson(x)
+        x=__bson(x)
+        return self.tobson(x) and self(x) or self.encode(x)
       end
-      return tostring(x)
+      return self.encode(x)
     end
     if type(x)=='table' then
       if not getmetatable(x) then return self.encode(x) end
       local mt = getmetatable(x or {}) or {}
       local to = mt.__toBSON or mt.__tobson
       if type(to)=='function' then
-        return self.encode(__bson(x))
+        x=__bson(x)
+        return self.tobson(x) and self(x) or self.encode(x)
       end
       local rv={}
       for k,v in pairs(x) do rv[k]=self(v) end
