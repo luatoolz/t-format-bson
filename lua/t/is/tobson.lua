@@ -1,0 +1,2 @@
+local getmetatable=debug and debug.getmetatable or getmetatable
+return function(x) return ((type(x)=='table' or type(x)=='userdata') and (type((getmetatable(x) or {}).__toBSON or (getmetatable(x) or {}).__tobson)=='function')) end

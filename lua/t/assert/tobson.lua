@@ -1,0 +1,1 @@
+return {1, "expected to have __toBSON/__tobson meta method: %s", "expected to not have __toBSON/__tobson meta method: %s"}
