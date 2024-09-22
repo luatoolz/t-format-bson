@@ -3,8 +3,8 @@ local t=t or require "t"
 local tex=t.exporter
 local driver = require "mongo"
 
-local getmetatable = debug.getmetatable or getmetatable
-local setmetatable = debug.setmetatable or setmetatable
+local getmetatable = debug and debug.getmetatable or getmetatable
+local setmetatable = debug and debug.setmetatable or setmetatable
 
 local function add(self)
   if type(self)~='table' or getmetatable(self) then return self end
@@ -34,6 +34,7 @@ if type(object)~='nil' then
   assert(type(mt.value)=='function')
   mt.value = function(self, handler) return clear(__value(self, handler)) end
   mt.__call = function(self, handler) return self:value(handler) end
+  mt.__export = function(self) return self:value() end
 
   local __bson=driver.BSON
   driver.BSON=function(self) return __bson(add(self)) end
