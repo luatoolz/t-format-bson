@@ -1,5 +1,6 @@
 require "meta"
 local t=t or require "t"
+local is=t.is
 local tex=t.exporter
 local driver = require "mongo"
 
@@ -54,4 +55,5 @@ return setmetatable({
 --    if is.atom(x) then return assert(self.encode(x)) end
     return assert(self.encode(tex(x, true)))
   end,
+  __mod=function(self, it) return is.bson(it) end,
 })
