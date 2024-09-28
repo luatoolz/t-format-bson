@@ -1,10 +1,10 @@
 local t=t or require "t"
 local is=t.is
 local driver = require "mongo"
-require "t/patch.d/bson"
+local BSON = require "t/patch.d/bson"
 
 return setmetatable({
-  encode=driver.BSON,
+  encode=BSON,
   decode=function(x, handler) if is.bson(x) then return x(handler) end; return x end,
   type=driver.type,
 },{
