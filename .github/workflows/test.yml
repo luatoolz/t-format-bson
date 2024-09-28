@@ -35,4 +35,4 @@ jobs:
     - name: build
       run: luarocks build --deps-mode all ${{ env.DEV }} ${{ env.ROCKSPEC }}
     - name: test
-      run: luarocks test -- -o TAP
+      run: luarocks test -- -o TAP --no-auto-insulate
