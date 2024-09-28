@@ -6,6 +6,8 @@ describe("bson", function()
     bson = t.format.bson
   end)
 	it("load", function()
+    assert.truthy(debug)
+    assert.truthy(debug.getmetatable)
     assert.is_table(bson)
     assert.is_table(getmetatable(bson))
   end)

@@ -1,10 +1,9 @@
-local getmetatable = debug and debug.getmetatable or getmetatable
-require "meta"
 local t=t or require "t"
 local export=t.exporter
 local driver = require "mongo"
 local add=function(x) return export(x, true) end
 local clear=function(x) return export(x, false) end
+local getmetatable = debug and debug.getmetatable or getmetatable
 
 local function fix(object)
   local mt = getmetatable(object or {}) or {}

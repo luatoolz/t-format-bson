@@ -1,6 +1,7 @@
 local t=t or require "t"
 local is=t.is
 local driver = require "mongo"
+require "t/patch.d/bson"
 
 return setmetatable({
   encode=driver.BSON,
