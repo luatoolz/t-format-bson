@@ -1,3 +1,4 @@
+local getmetatable=debug and debug.getmetatable or getmetatable
 describe("bson", function()
   local t, bson, is
   setup(function()
@@ -10,6 +11,8 @@ describe("bson", function()
     assert.truthy(debug.getmetatable)
     assert.is_table(bson)
     assert.is_table(getmetatable(bson))
+    assert.is_function(getmetatable(bson({})).__call)
+    assert.is_function(getmetatable(bson({})).__export)
   end)
   it("bson", function()
     assert.bson(bson{})
