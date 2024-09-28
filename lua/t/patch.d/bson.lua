@@ -6,7 +6,6 @@ local clear=function(x) return export(x, false) end
 local getmetatable = debug and debug.getmetatable or getmetatable
 
 local object = driver.BSON({})
-
 local mt = assert(getmetatable(object))
 
 local __value = mt.value

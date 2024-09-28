@@ -24,7 +24,16 @@ RUN apk add --no-cache \
 RUN luarocks install --dev https://raw.githubusercontent.com/luatoolz/lua-mongo/master/lua-mongo-scm-0.rockspec
 RUN luarocks install --dev t-format-bson
 
+COPY . /app
+WORKDIR /app
+
+RUN luarocks test --prepare --dev t-format-bson-scm-0.rockspec
+RUN luarocks install --deps-mode all --only-deps --dev *.rockspec
+RUN luarocks build --deps-mode all --dev *.rockspec
+
 RUN apk del build-base gcc git make cmake openssl-dev && rm -rf /var/cache
 
 FROM scratch
 COPY --from=soft / /
+
+WORKDIR /app
