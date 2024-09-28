@@ -7,12 +7,7 @@ local getmetatable = debug and debug.getmetatable or getmetatable
 
 local object = driver.BSON({})
 
-local mt = getmetatable(object or {}) or {}
-if type(object)=='nil' or
-  not getmetatable(object) or
-  t.type(object)~='mongo.BSON' or
-  type(mt.__export)=='function' then
-    return object end
+local mt = assert(getmetatable(object))
 
 local __value = mt.value
 assert(type(mt.value)=='function')
