@@ -9,4 +9,5 @@ return setmetatable({
 },{
   __call=function(self, x) return self.encode(x) end,
   __mod=function(self, it) return is.bson(it) end,
+  __tostring=function(self) return t.type(self) end,
 })
