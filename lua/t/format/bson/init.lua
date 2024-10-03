@@ -1,5 +1,5 @@
 local t=t or require "t"
-local is=t.is
+local is=t.is ^ "mongo"
 local pkg = t.pkg(...)
 local driver = require "mongo"
 
