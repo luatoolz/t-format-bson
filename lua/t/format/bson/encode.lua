@@ -1,11 +1,11 @@
 local t=t or require "t"
-local export=assert(t.exporter, "no t.exporter")
-local driver = assert(require "mongo")
+local export=t.exporter
+local driver = require "mongo"
 local add=function(x) return export(x, true) end
 local clear=function(x) return export(x, false) end
 
 local object = driver.BSON({})
-local mt = assert(getmetatable(object), "no BSON object")
+local mt = getmetatable(object)
 
 if not mt.__export then
   local __value = mt.value

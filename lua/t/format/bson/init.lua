@@ -1,7 +1,8 @@
 local t=t or require "t"
-local is=t.is ^ "mongo"
-local pkg = t.pkg(...)
 local driver = require "mongo"
+local is=t.is ^ "mongo"
+local match=t.match
+local pkg = t.pkg(...)
 
 return setmetatable({
   encode=pkg.encode,
@@ -10,5 +11,5 @@ return setmetatable({
 },{
   __call=function(self, x) return x and self.encode(x) end,
   __mod=function(self, it) return is.bson(it) end,
-  __tostring=function(self) return t.type(self) end,
+  __tostring=function(self) return match.basename(t.type(self)) end,
 })
