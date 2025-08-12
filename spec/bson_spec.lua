@@ -1,11 +1,12 @@
 describe("bson", function()
   local t, bson, is
   setup(function()
-    t = require "t"
+    t = require 't'
     is = t.is
-    bson = require "t.format.bson"
+    bson = t.format.bson
   end)
 	it("load", function()
+    assert.is_table(is)
     assert.is_table(bson)
     assert.is_table(getmetatable(bson))
     assert.is_function(getmetatable(bson({})).__call)
